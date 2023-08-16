@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="default">
+
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- A ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <!-- Solver settings -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+    </physics>
+
+    <!-- Plugin initialization -->
+    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
+      <ros>
+        <namespace>/gazebo</namespace>
+      </ros>
+
+      <alwaysOn>true</alwaysOn>
+      <update_rate>10.0</update_rate>
+    </plugin>
+
+    <!-- Static environment models -->
+    <model name='3DPrinterBed'>
+      <link name='3DPrinterBed'>
+        <inertial>
+          <pose>0.908785 0.150759 0 1.57079632679 0 -1.57079632679</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>2.7e-05</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>2.7e-05</iyy>
+            <iyz>0</iyz>
+            <izz>2.7e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='3DPrinterBed_collision'>
+          <pose>0.908785 0.150759 0 1.57079632679 0 -1.57079632679</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/robin/ros2_ws/install/qarm_v1/share/qarm_v1/meshes/world/3dprinter_simplified.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name='3DPrinterBed_visual'>
+          <pose>0.908785 0.150759 0 1.57079632679 0 -1.57079632679</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/robin/ros2_ws/install/qarm_v1/share/qarm_v1/meshes/world/3dprinter_simplified.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+
+  </world>
+</sdf>

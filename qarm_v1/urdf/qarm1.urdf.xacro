@@ -1,0 +1,255 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="qarm_v1">
+
+    <!-- macros -->
+    <xacro:property name="damping_qarm" value="0.5" />
+    <xacro:property name="friction_qarm" value="0.0" />
+    <xacro:property name="effort_qarm" value="1000.0" />
+    <xacro:property name="velocity_qarm" value="${pi*90/180}" />
+
+    <!-- qarm links and joints -->
+    <link name="world"/>
+    <link name="base_link">
+        <origin
+            xyz="0.000529200576288575 -2.23307396420992E-06 0.0267852902177001"
+            rpy="0 0 0" />
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/base_link.stl"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <mass
+                value="3.9" />
+            <inertia
+                ixx="0.0259717926187233"
+                ixy="7.41706820354147E-07"
+                ixz="-9.20327430275286E-08"
+                iyy="0.0237418182185852"
+                iyz="6.90408382921997E-11"
+                izz="0.048730018421969" />
+        </inertial>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/base_link.stl"/>
+            </geometry>
+        </collision>
+    </link>
+
+	<joint name="world_base_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+
+    <link name="yaw_link">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/yaw_link.stl"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <origin
+                xyz="0 0 0.1"
+                rpy="0 0 0" />
+            <mass
+                value="0.7" />
+            <inertia
+                ixx="0.000478980181395404"
+                ixy="3.49149750193703E-12"
+                ixz="5.35348095946474E-11"
+                iyy="0.000450830880977554"
+                iyz="9.21997569253762E-11"
+                izz="0.000625067532631923" />
+        </inertial>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/yaw_link.stl"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="base_yaw_joint" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="base_link"/>
+        <child link="yaw_link"/>
+        <limit lower="${-pi*170/180}" upper="${pi*170/180}" effort="${effort_qarm}" velocity="${velocity_qarm}"/>
+        <dynamics friction="${friction_qarm}" damping="${damping_qarm}"/>
+    </joint>
+
+    <link name="bicep_link">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/bicep_link.stl"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <origin
+                xyz="0 -0.14 0"
+                rpy="0 0 0" />
+            <mass
+                value="0.7" />
+            <inertia
+                ixx="0.00242444522090698"
+                ixy="2.42682372909241E-06"
+                ixz="-6.26703067273348E-07"
+                iyy="0.000274342515078279"
+                iyz="1.69726051287685E-06"
+                izz="0.00246773570290634" />
+        </inertial>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/bicep_link.stl"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="yaw_bicep_joint" type="revolute">
+        <origin xyz="0 0 0.14" rpy="${pi/2} ${pi} ${pi}"/>
+        <axis xyz="0 0 1"/>
+        <parent link="yaw_link"/>
+        <child link="bicep_link"/>
+        <limit lower="${-pi*85/180}" upper="${pi*85/180}" effort="${effort_qarm}" velocity="${velocity_qarm}"/>
+        <dynamics friction="${friction_qarm}" damping="${damping_qarm}"/>
+    </joint>
+
+    <link name="forearm_link">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0.14" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/forearm_link.stl"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <origin
+                xyz="0 0.10 0"
+                rpy="0 0 0.14" />
+            <mass
+                value="0.43" />
+            <inertia
+                ixx="0.000344487673462402"
+                ixy="-2.89506781372207E-05"
+                ixz="4.98141800994188E-07"
+                iyy="0.000149695456153606"
+                iyz="2.97325983931059E-06"
+                izz="0.000297718151262944" />
+        </inertial>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0.14" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/forearm_link.stl"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="bicep_forearm_joint" type="revolute">
+        <origin xyz="0.05 -0.35 0" rpy="0 0 ${-pi/2}"/> <!-- -0.14 -->
+        <axis xyz="0 0 -1"/>
+        <parent link="bicep_link"/>
+        <child link="forearm_link"/>
+        <limit lower="${-pi*95/180}" upper="${pi*75/180}" effort="${effort_qarm}" velocity="${velocity_qarm}"/>
+        <dynamics friction="${friction_qarm}" damping="${damping_qarm}"/>
+    </joint>
+
+    <link name="endeffector_link">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/endeffector_link.stl"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <origin
+                xyz="0 0 0.01"
+                rpy="0 0 0" />
+            <mass
+                value="0.025" />
+            <inertia
+                ixx="2.26806595610621E-06"
+                ixy="7.98741449900658E-09"
+                ixz="1.08626792635935E-08"
+                iyy="2.22929725748166E-06"
+                iyz="-5.49899749477752E-09"
+                izz="4.00602755679902E-06" />
+        </inertial>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find qarm_v1)/meshes/endeffector_link.stl"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="forearm_endeffector_joint" type="revolute">
+        <origin rpy="${-pi/2} 0 0" xyz="0 0.24 0" />
+        <axis xyz="0 0 1"/>
+        <parent link="forearm_link"/>
+        <child link="endeffector_link"/>
+        <limit lower="${-pi*160/180}" upper="${pi*160/180}" effort="${effort_qarm}" velocity="${velocity_qarm}"/>
+        <dynamics friction="${friction_qarm}" damping="${damping_qarm}"/>
+    </joint>
+
+    <!-- include gripper and camera -->
+    <xacro:include filename="gripper.urdf.xacro" />
+    <xacro:include filename="camera.urdf.xacro" />
+
+    <!-- tcp link -->
+    <link name="TCP_link"></link>
+    <joint name="TCP_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0.16" />
+        <parent link="endeffector_link"/>
+        <child link="TCP_link"/>
+    </joint>
+    <gazebo reference="TCP_joint">
+        <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+
+    <!-- minDepth against twitching due to collision with ground -->
+    <gazebo reference='base_link'>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    
+</robot>

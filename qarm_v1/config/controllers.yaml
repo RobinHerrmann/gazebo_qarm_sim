@@ -1,0 +1,52 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000
+    use_sim_time: true
+
+    joint_arm_position_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    joint_gripper_position_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+joint_arm_position_controller:
+  ros__parameters:
+    command_interfaces:
+     - position
+
+    state_interfaces:
+     - position
+     - velocity
+
+    joints:
+     - base_yaw_joint
+     - yaw_bicep_joint
+     - bicep_forearm_joint
+     - forearm_endeffector_joint
+
+    open_loop_control: true
+
+    stop_trajectory_duration: 0.5
+    action_monitor_rate: 50.0
+
+joint_gripper_position_controller:
+  ros__parameters:
+    command_interfaces:
+     - position
+
+    state_interfaces:
+     - position
+     - velocity
+
+    joints:
+     - a1_joint
+     - a2_joint
+     - b1_joint
+     - b2_joint
+
+    open_loop_control: true
+
+    action_monitor_rate: 50.0

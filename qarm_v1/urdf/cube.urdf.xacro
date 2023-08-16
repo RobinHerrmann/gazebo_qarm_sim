@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="simple_cube1">
+
+    <!-- macros -->
+    <xacro:property name="cube_size" value="0.04" />
+    <xacro:property name="cube_x_pos" value="0.6" />
+    <xacro:property name="cube_y_pos" value="0.0" />
+    <xacro:property name="cube_z_pos" value="0.08" />
+
+    <!-- qarm links and joints -->
+    <link name="cube_link">
+        <origin
+            xyz="${cube_size/2} ${cube_size/2} ${cube_size/2}"
+            rpy="0 0 0" />
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <box size="${cube_size} ${cube_size} ${cube_size}"/>
+            </geometry>
+            <material name="Red">
+                <color rgba="1.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <inertial>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <mass
+                value="0.1" />
+            <inertia
+                ixx="0.000027"
+                ixy="0"
+                ixz="0"
+                iyy="0.000027"
+                iyz="0"
+                izz="0.000027" />
+        </inertial>
+        <collision name="cube_link_collision">
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <box size="${cube_size} ${cube_size} ${cube_size}"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- contact sensor -->
+    <gazebo reference="cube_link">
+        <sensor name="bumper_cube" type="contact">
+            <always_on>true</always_on>
+            <update_rate>10</update_rate>
+            <contact>
+                <collision>cube_link_collision</collision>
+            </contact>
+            <plugin name="bumper_cube" filename="libgazebo_ros_bumper.so">
+                <ros>
+                    <remapping>bumper_states:=cube_collision</remapping>
+                </ros>
+                <frame_name>world</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+    
+</robot>

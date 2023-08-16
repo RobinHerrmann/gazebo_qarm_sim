@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- collision sensor for qarm -->
+    <xacro:macro name="gazebo_bumper_sensor" params="reference collision sensorname">
+        <gazebo reference="${reference}">
+            <sensor name="${sensorname}" type="contact">
+                <always_on>true</always_on>
+                <update_rate>100</update_rate>
+                <contact>
+                    <collision>${collision}</collision>
+                </contact>
+                <plugin name="${sensorname}" filename="libgazebo_ros_bumper.so">
+                    <ros>
+                        <remapping>bumper_states:=qarm_collision</remapping>
+                    </ros>
+                    <frame_name>world</frame_name>
+                </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:gazebo_bumper_sensor reference='forearm_link' collision='forearm_link_collision' sensorname='bumper_forearm_link'/>
+    <xacro:gazebo_bumper_sensor reference='endeffector_link' collision='endeffector_link_collision' sensorname='bumper_endeffector_link'/>
+    <xacro:gazebo_bumper_sensor reference='gripper_base_link' collision='endeffector_link_fixed_joint_lump__gripper_base_link_collision_1' sensorname='bumper_gripper_base_link'/>
+    <xacro:gazebo_bumper_sensor reference='a1_link' collision='a1_link_collision' sensorname='bumper_a1_link'/>
+    <xacro:gazebo_bumper_sensor reference='b1_link' collision='b1_link_collision' sensorname='bumper_b1_link'/>
+    <xacro:gazebo_bumper_sensor reference='a2_link' collision='a2_link_collision' sensorname='bumper_a2_link'/>
+    <xacro:gazebo_bumper_sensor reference='b2_link' collision='b2_link_collision' sensorname='bumper_b2_link'/>
+
+</robot>
