@@ -1,0 +1,306 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- macros -->
+    <xacro:property name="damping" value="0.01" />
+    <xacro:property name="friction" value="0.0" />
+
+    <xacro:property name="effort_gripper" value="0.1" />
+
+    <xacro:property name="joint1_lower_linit" value="0.0" />
+    <xacro:property name="joint2_lower_linit" value="0.0" />
+    <xacro:property name="joint1_upper_linit" value="${pi/2 *1.1}" />
+    <xacro:property name="joint2_upper_linit" value="${pi/2 *1.1}" />
+
+    <!-- gripper links and joints -->
+    <link name="gripper_base_link">
+    <inertial>
+        <origin
+        xyz="0 0.01 0.02"
+        rpy="0 0 0" />
+        <mass
+        value="0.33479852963848" />
+        <inertia
+        ixx="5.9572406267126E-05"
+        ixy="1.11008174711578E-07"
+        ixz="-3.44963380718569E-08"
+        iyy="6.2822744198068E-05"
+        iyz="9.15801539089534E-07"
+        izz="8.74300453049402E-05" />
+    </inertial>
+    <visual>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/base_link0.stl" />
+        </geometry>
+    </visual>
+    <collision>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/base_link0.stl" />
+        </geometry>
+    </collision>
+    </link>
+
+    <joint name="gripper_attach_joint" type="fixed">
+        <origin rpy="0 0 ${pi/2}" xyz="0 0 0.016"/>
+        <parent link="endeffector_link"/>
+        <child link="gripper_base_link"/>
+    </joint>
+
+    <link name="a1_link">
+    <inertial>
+        <origin
+        xyz="-0.035 0 0"
+        rpy="0 0 0" />
+        <mass
+        value="0.0788280234760158" />
+        <inertia
+        ixx="3.38492832189259E-06"
+        ixy="-6.12891832992133E-10"
+        ixz="-7.48277694767134E-07"
+        iyy="2.16125886302788E-05"
+        iyz="2.11331952198569E-11"
+        izz="2.12356995683766E-05" />
+    </inertial>
+    <visual>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/a1_link.stl" />
+        </geometry>
+    </visual>
+    <collision>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/a1_link.stl" />
+        </geometry>
+    </collision>
+    </link>
+
+    <joint name="a1_joint" type="revolute">
+        <origin xyz="0.03075 0 0.0345" rpy="0 ${pi} 0"/>
+        <axis xyz="0 -1 0"/>
+        <parent link="gripper_base_link"/>
+        <child link="a1_link"/>
+        <limit lower="${joint1_lower_linit}" upper="${joint1_upper_linit}" effort="${effort_gripper}" velocity="0"/>
+        <dynamics friction="${friction}" damping="${damping}"/>
+    </joint>
+
+    <link name="a2_link">
+    <inertial>
+        <origin
+        xyz="-0.015 0 0"
+        rpy="0 0 0" />
+        <mass
+        value="0.0279136021964374" />
+        <inertia
+        ixx="7.00087667438131E-07"
+        ixy="-5.25949720522574E-13"
+        ixz="-4.92956576608734E-08"
+        iyy="6.10922529487505E-06"
+        iyz="2.8814596902878E-13"
+        izz="5.889898824283E-06" />
+    </inertial>
+    <visual>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/a2_link.stl" />
+        </geometry>
+    </visual>
+    <collision>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/a2_link.stl" />
+        </geometry>
+    </collision>
+    </link>
+
+    <joint name="a2_joint" type="revolute">
+        <origin xyz="-0.07 0 0" rpy="0 0 0"/>
+        <axis xyz="0 -1 0"/>
+        <parent link="a1_link"/>
+        <child link="a2_link"/>
+        <limit lower="${joint2_lower_linit}" upper="${joint2_upper_linit}" effort="${effort_gripper}" velocity="0"/>
+        <dynamics friction="${friction}" damping="${damping}"/>
+    </joint>
+
+    <link name="b1_link">
+    <inertial>
+        <origin
+        xyz="-0.035 0 0"
+        rpy="0 0 0" />
+        <mass
+        value="0.0788280234760158" />
+        <inertia
+        ixx="3.38492832189259E-06"
+        ixy="-6.12891832992133E-10"
+        ixz="-7.48277694767134E-07"
+        iyy="2.16125886302788E-05"
+        iyz="2.11331952198569E-11"
+        izz="2.12356995683766E-05" />
+    </inertial>
+    <visual>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/a1_link.stl" />
+        </geometry>
+    </visual>
+    <collision>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/a1_link.stl" />
+        </geometry>
+    </collision>
+    </link>
+
+    <joint name="b1_joint" type="revolute">
+        <origin xyz="-0.03075 0 0.0345" rpy="${pi} 0 0"/>
+        <axis xyz="0 -1 0"/>
+        <parent link="gripper_base_link"/>
+        <child link="b1_link"/>
+        <limit lower="${joint1_lower_linit}" upper="${joint1_upper_linit}" effort="${effort_gripper}" velocity="0"/>
+        <!-- <mimic joint="a1_joint" multiplier="1" offset="0" /> -->
+        <dynamics friction="${friction}" damping="${damping}"/>
+    </joint>
+
+    <link name="b2_link">
+    <inertial>
+        <origin
+        xyz="-0.015 0 0"
+        rpy="0 0 0" />
+        <mass
+        value="0.0279136021964374" />
+        <inertia
+        ixx="7.00087667438131E-07"
+        ixy="-5.25949720522574E-13"
+        ixz="-4.92956576608734E-08"
+        iyy="6.10922529487505E-06"
+        iyz="2.8814596902878E-13"
+        izz="5.889898824283E-06" />
+    </inertial>
+    <visual>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/a2_link.stl" />
+        </geometry>
+    </visual>
+    <collision>
+        <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+            filename="file://$(find qarm_v2)/meshes/gripper/a2_link.stl" />
+        </geometry>
+    </collision>
+    </link>
+
+    <joint name="b2_joint" type="revolute">
+        <origin xyz="-0.07 0 0" rpy="0 0 0"/>
+        <axis xyz="0 -1 0"/>
+        <parent link="b1_link"/>
+        <child link="b2_link"/>
+        <limit lower="${joint2_lower_linit}" upper="${joint2_upper_linit}" effort="${effort_gripper}" velocity="0"/>
+        <!-- <mimic joint="a2_joint" multiplier="1" offset="0" /> -->
+        <dynamics friction="${friction}" damping="${damping}"/>
+    </joint>
+
+    <!-- dynamics macro (CURRENTLY UNUSED DUE TO GRIPPING ISSUES, SEE DOCS) -->
+    <xacro:macro name="gazebo_grip_joint_values" params="reference">
+        <gazebo reference='${reference}'>
+            <implicitSpringDamper>1</implicitSpringDamper>
+            <kp>100000000.0</kp>
+            <kd>1.0</kd>
+        </gazebo>
+    </xacro:macro>
+    <xacro:macro name="gazebo_grip_link_values" params="reference">
+        <gazebo reference='${reference}'>
+            <mu1>1.0</mu1>
+            <mu2>1.0</mu2>
+            <slip1>0</slip1>
+            <slip2>0</slip2>
+            <minDepth>0.001</minDepth>
+            <maxVel>0</maxVel>
+            <torsional>
+                <ode>
+                    <coefficient>1.0</coefficient>
+                    <slip>0</slip>
+                </ode>
+            </torsional>
+            <selfCollide>true</selfCollide>
+            <bounce>
+                <restitution_coefficient>0</restitution_coefficient>
+                <threshold>1e+06</threshold>
+            </bounce>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:gazebo_grip_joint_values reference='a1_joint'/>
+    <xacro:gazebo_grip_joint_values reference='a2_joint'/>
+    <xacro:gazebo_grip_joint_values reference='b1_joint'/>
+    <xacro:gazebo_grip_joint_values reference='b2_joint'/>
+    <xacro:gazebo_grip_link_values reference='a1_link'/>
+    <xacro:gazebo_grip_link_values reference='a2_link'/>
+    <xacro:gazebo_grip_link_values reference='b1_link'/>
+    <xacro:gazebo_grip_link_values reference='b2_link'/>
+
+
+    <!-- <gazebo reference="a2_link">
+        <sensor name="bumper_a2" type="contact">
+            <always_on>true</always_on>
+            <update_rate>10</update_rate>
+            <contact>
+                <collision>a2_link_collision</collision>
+            </contact>
+            <plugin name="bumper_a2" filename="libgazebo_ros_bumper.so">
+                <ros>
+                    <remapping>bumper_states:=a2_link_collision</remapping>
+                </ros>
+                <frame_name>world</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+    <gazebo reference="b2_link">
+        <sensor name="bumper_b2" type="contact">
+            <always_on>true</always_on>
+            <update_rate>10</update_rate>
+            <contact>
+                <collision>b2_link_collision</collision>
+            </contact>
+            <plugin name="bumper_b2" filename="libgazebo_ros_bumper.so">
+                <ros>
+                    <remapping>bumper_states:=b2_link_collision</remapping>
+                </ros>
+                <frame_name>world</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo> -->
+
+</robot>
